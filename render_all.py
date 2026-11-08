@@ -13,6 +13,7 @@ for f in sorted(x for x in os.listdir(src) if x.endswith('.blend')):
             sys.exit('NO GPU: refusing to render on the CPU')
         for d in cp.devices: d.use = d.type == 'OPTIX'
         sc.cycles.device = 'GPU'
+        sc.cycles.denoising_use_gpu = True   # a Mac .blend saves False: OIDN would run on the CPU
         print('DEVICE', ', '.join(d.name for d in gpus), flush=True)
     sc.render.filepath = os.path.join(dst, f[:-6] + '.png')
     bpy.ops.render.render(write_still=True)
